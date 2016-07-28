@@ -1,11 +1,10 @@
 package com.zmartonos.stocks;
 
-import com.zmartonos.stocks.DailyPrice;
-import com.zmartonos.stocks.DailyPriceCSVReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -14,10 +13,11 @@ import java.util.List;
 public class DailyPivotSimulator {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static void main(final String[] argv) throws IOException {
+    public static void main(final String[] argv) throws IOException, URISyntaxException {
         LOGGER.info("Starting DailyPivotSimulator...");
 
-        final List<DailyPrice> dailyPrices = DailyPriceCSVReader.readDailyPriceCSV("src/test/resources/prices/henkel.csv");
+        final List<DailyPrice> dailyPrices = DailyPriceCSVReader.readDailyPriceCSV(
+                DailyPivotSimulator.class.getClassLoader().getResource("prices/henkel.csv").getFile());
 
         dailyPrices.
                 stream().
