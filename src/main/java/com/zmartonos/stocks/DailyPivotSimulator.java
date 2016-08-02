@@ -7,6 +7,7 @@ import org.javatuples.Pair;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -37,6 +38,17 @@ public class DailyPivotSimulator {
                 map(pair -> DailyPivotCalculator.calculateDailyPivot(pair.getValue0(),pair.getValue1())).
                 collect(Collectors.toList());
 
-        dailyPivots.forEach(pivot -> LOGGER.info(pivot.toString()));
+        AtomicInteger rising = new AtomicInteger(0);
+        AtomicInteger falling = new AtomicInteger(0);
+
+        dailyPivots.stream().parallel().forEach(pivot->{
+            DailyPrice dailyPrice = pivot.getDayPrice();
+            if (dailyPrice.getClose() > dailyPrice.getOpen()){
+                rising.incrementAndGet();
+            } else {
+                falling.incrementAndGet();
+            }
+        });
+        LOGGER.info("Rising: "+rising+" falling: "+falling);
     }
 }
