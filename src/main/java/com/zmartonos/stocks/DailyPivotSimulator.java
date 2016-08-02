@@ -19,19 +19,18 @@ public class DailyPivotSimulator {
     public static void main(final String[] argv) throws IOException, URISyntaxException {
         LOGGER.info("Starting DailyPivotSimulator...");
 
+        // read daily prices
         final List<DailyPrice> dailyPrices = DailyPriceCSVReader.readDailyPriceCSV(
                 DailyPivotSimulator.class.getClassLoader().getResource("prices/henkel.csv").getFile());
 
-        final int gain = 0;
-        final int loss = 0;
-
+        // create pair of two consecutive trading day pricees
         final List<Pair<DailyPrice, DailyPrice>> twoDayPrices =
                 IntStream.
                         range(0, dailyPrices.size() -1).
                         mapToObj(i -> Pair.with(dailyPrices.get(i), dailyPrices.get(i+1))).
                         collect(Collectors.toList());
 
-
+        // calculate pivot points
         final List<DailyPivot> dailyPivots = twoDayPrices.
                 stream().
                 parallel().
