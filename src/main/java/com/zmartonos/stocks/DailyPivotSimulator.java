@@ -59,7 +59,7 @@ public class DailyPivotSimulator {
                 purchase.set(pivot.getS1());
             }
 
-            if (dailyPrice.getHigh() > pivot.getR1() && purchase.get() != 0.0){
+            if (dailyPrice.getHigh() > pivot.getR1() && purchase.get() != 0.0 && pivot.getR1() > purchase.get()){
                 profit.addAndGet(pivot.getR1()-purchase.get());
                 purchase.set(0.0);
             }
