@@ -4,8 +4,8 @@ package com.zmartonos.stocks;
  * Created by zootanka on 28.07.16.
  */
 public class DailyPivot {
-    private final DailyPrice prevDayPrice;
-    private final DailyPrice dayPrice;
+    private final Price prevDayPrice;
+    private final Price dayPrice;
     private double r1;
     private double r2;
     private double r3;
@@ -16,7 +16,7 @@ public class DailyPivot {
     private double s3;
     private double s4;
 
-    public DailyPivot(DailyPrice prevDayPrice, DailyPrice dayPrice, double r1, double r2, double r3, double r4,
+    public DailyPivot(Price prevDayPrice, Price dayPrice, double r1, double r2, double r3, double r4,
                       double s1, double s2, double s3, double s4) {
         this.prevDayPrice = prevDayPrice;
         this.dayPrice = dayPrice;
@@ -62,11 +62,11 @@ public class DailyPivot {
         return s4;
     }
 
-    public DailyPrice getPrevDayPrice() {
+    public Price getPrevDayPrice() {
         return prevDayPrice;
     }
 
-    public DailyPrice getDayPrice() {
+    public Price getDayPrice() {
         return dayPrice;
     }
 

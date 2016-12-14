@@ -13,28 +13,28 @@ import java.util.List;
  */
 public class DailyPriceCSVReader {
 
-    public static List<DailyPrice> readDailyPriceCSV(final String fileName) throws IOException {
-        final List<DailyPrice> dailyPrices = Lists.newArrayList();
+    public static List<Price> readDailyPriceCSV(final String fileName) throws IOException {
+        final List<Price> prices = Lists.newArrayList();
 
         try (BufferedReader br = new BufferedReader(new FileReader(new File(fileName)))) {
             String line;
             String[] parts;
             while ((line = br.readLine()) != null) {
                 parts = line.split("\\s");
-                dailyPrices.add(new DailyPrice(LocalDate.parse(parts[0],Formats.ddMMyyyyFormatter),
+                prices.add(new Price(LocalDate.parse(parts[0],Formats.ddMMyyyyFormatter),
                         Double.valueOf(parts[1].replace(",", ".")), Double.valueOf(parts[2].replace(",", ".")),
                         Double.valueOf(parts[3].replace(",", ".")), Double.valueOf(parts[4].replace(",", ".")),
                         Long.valueOf(parts[5].replace(".",""))));
             }
         }
 
-        Collections.sort(dailyPrices, new Comparator<DailyPrice>() {
+        Collections.sort(prices, new Comparator<Price>() {
             @Override
-            public int compare(DailyPrice o1, DailyPrice o2) {
+            public int compare(Price o1, Price o2) {
                 return o1.getDate().compareTo(o2.getDate());
             }
         });
 
-        return dailyPrices;
+        return prices;
     }
 }

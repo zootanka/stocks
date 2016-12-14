@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by zootanka on 07.11.15.
  */
-public class DailyPrice {
+public class Price {
     private final LocalDate date;
     private final double open;
     private final double close;
@@ -14,7 +14,7 @@ public class DailyPrice {
     private final double low;
     private final long volume;
 
-    public DailyPrice(LocalDate date, double open, double close, double high, double low, long volume) {
+    public Price(LocalDate date, double open, double close, double high, double low, long volume) {
         this.date = date;
         this.open = open;
         this.close = close;
@@ -49,7 +49,7 @@ public class DailyPrice {
 
     @Override
     public String toString() {
-        return "DailyPrice{" +
+        return "Price{" +
                 "date=" + date +
                 ", open=" + open +
                 ", close=" + close +

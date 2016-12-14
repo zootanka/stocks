@@ -1,6 +1,10 @@
-package com.zmartonos.stocks;
+package com.zmartonos.stocks.simulate;
 
 import com.google.common.util.concurrent.AtomicDouble;
+import com.zmartonos.stocks.DailyPivot;
+import com.zmartonos.stocks.DailyPivotCalculator;
+import com.zmartonos.stocks.DailyPriceCSVReader;
+import com.zmartonos.stocks.Price;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javatuples.Pair;
@@ -9,7 +13,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -23,15 +26,15 @@ public class DailyPivotSimulator {
         LOGGER.info("Starting DailyPivotSimulator...");
 
         // read daily prices
-        final List<DailyPrice> dailyPrices = DailyPriceCSVReader.readDailyPriceCSV(
+        final List<Price> prices = DailyPriceCSVReader.readDailyPriceCSV(
                 DailyPivotSimulator.class.getClassLoader().getResource("prices/henkel.csv").getFile());
 
-        LOGGER.info("Prices: "+dailyPrices.get(0).getClose()+" :: "+dailyPrices.get(dailyPrices.size()-1).getClose());
+        LOGGER.info("Prices: "+ prices.get(0).getClose()+" :: "+ prices.get(prices.size()-1).getClose());
         // create pair of two consecutive trading day prices
-        final List<Pair<DailyPrice, DailyPrice>> twoDayPrices =
+        final List<Pair<Price, Price>> twoDayPrices =
                 IntStream.
-                        range(0, dailyPrices.size() -1).
-                        mapToObj(i -> Pair.with(dailyPrices.get(i), dailyPrices.get(i+1))).
+                        range(0, prices.size() -1).
+                        mapToObj(i -> Pair.with(prices.get(i), prices.get(i+1))).
                         collect(Collectors.toList());
 
         // calculate pivot points
@@ -48,18 +51,18 @@ public class DailyPivotSimulator {
         AtomicDouble profit = new AtomicDouble(0);
 
         dailyPivots.stream().parallel().forEach(pivot->{
-            DailyPrice dailyPrice = pivot.getDayPrice();
-            if (dailyPrice.getClose() > dailyPrice.getOpen()){
+            Price price = pivot.getDayPrice();
+            if (price.getClose() > price.getOpen()){
                 rising.incrementAndGet();
             } else {
                 falling.incrementAndGet();
             }
 
-            if (pivot.getS1() > dailyPrice.getLow() && purchase.get() == 0.0){
+            if (pivot.getS1() > price.getLow() && purchase.get() == 0.0){
                 purchase.set(pivot.getS1());
             }
 
-            if (dailyPrice.getHigh() > pivot.getR1() && purchase.get() != 0.0 && pivot.getR1() > purchase.get()){
+            if (price.getHigh() > pivot.getR1() && purchase.get() != 0.0 && pivot.getR1() > purchase.get()){
                 profit.addAndGet(pivot.getR1()-purchase.get());
                 purchase.set(0.0);
             }

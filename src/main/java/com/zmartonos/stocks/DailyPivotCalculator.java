@@ -4,7 +4,7 @@ package com.zmartonos.stocks;
  * Created by zootanka on 28.07.16.
  */
 public class DailyPivotCalculator {
-    public static DailyPivot calculateDailyPivot(final DailyPrice prevDayPrice, DailyPrice dayPrice){
+    public static DailyPivot calculateDailyPivot(final Price prevDayPrice, Price dayPrice){
         double pivot = (prevDayPrice.getHigh() + prevDayPrice.getLow() + prevDayPrice.getClose())/3;
         double r1 = 2 * pivot - prevDayPrice.getLow();
         double s1 = 2 * pivot - prevDayPrice.getHigh();
