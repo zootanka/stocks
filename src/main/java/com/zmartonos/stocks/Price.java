@@ -58,4 +58,12 @@ public class Price {
                 ", volume=" + volume +
                 '}';
     }
+
+    public double getAvg(){
+        return (open + close + high + low) / 4;
+    }
+
+    public double getOpenCloseAvg(){
+        return (open + close) / 2;
+    }
 }

@@ -8,5 +8,5 @@ import java.time.format.DateTimeFormatter;
 public class Formats {
     static final DateTimeFormatter yyyyMMddFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     static final DateTimeFormatter ddMMyyyyFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    static final DateTimeFormatter yyyyFormatter = DateTimeFormatter.ofPattern("yyyy");
+    static final DateTimeFormatter yyyyFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 }

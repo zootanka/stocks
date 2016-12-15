@@ -17,14 +17,13 @@ public class DaxYearlyPriceCSVReader {
 
     public static List<Price> readYearlyPriceCSV(final String fileName) throws IOException {
         try (final Reader in = new FileReader(fileName)) {
-            return CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(in).getRecords().stream().map(
-                    e -> {LOGGER.info(e.toString());
-                        return new Price(LocalDate.parse(e.get("Jahr"), Formats.yyyyFormatter),
-                            Double.valueOf(e.get("Jahresstart").replace(",", ".")),
-                            Double.valueOf(e.get("Jahresende").replace(",", ".")),
-                            Double.valueOf(e.get("Jahrestief").replace(",", ".")),
-                            Double.valueOf(e.get("Jahreshoch").replace(",", ".")),
-                            0L);}
+            return CSVFormat.DEFAULT.withDelimiter('\t').withIgnoreSurroundingSpaces().withFirstRecordAsHeader().parse(in).getRecords().stream().map(
+                    e -> new Price(LocalDate.parse(e.get("Jahr")+"0101", Formats.yyyyFormatter),
+                            Double.valueOf(e.get("Jahresstart").replace(".", "").replace(",", ".")),
+                            Double.valueOf(e.get("Jahresende").replace(".", "").replace(",", ".")),
+                            Double.valueOf(e.get("Jahreshoch").replace(".", "").replace(",", ".")),
+                            Double.valueOf(e.get("Jahrestief").replace(".", "").replace(",", ".")),
+                            0L)
             ).collect(Collectors.toList());
         }
     }
