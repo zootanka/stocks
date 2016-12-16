@@ -17,12 +17,18 @@ public class DaxYearlyPriceCSVReader {
 
     public static List<Price> readYearlyPriceCSV(final String fileName) throws IOException {
         try (final Reader in = new FileReader(fileName)) {
-            return CSVFormat.DEFAULT.withDelimiter('\t').withIgnoreSurroundingSpaces().withFirstRecordAsHeader().parse(in).getRecords().stream().map(
-                    e -> new Price(LocalDate.parse(e.get("Jahr")+"0101", Formats.yyyyFormatter),
-                            Double.valueOf(e.get("Jahresstart").replace(".", "").replace(",", ".")),
-                            Double.valueOf(e.get("Jahresende").replace(".", "").replace(",", ".")),
-                            Double.valueOf(e.get("Jahreshoch").replace(".", "").replace(",", ".")),
-                            Double.valueOf(e.get("Jahrestief").replace(".", "").replace(",", ".")),
+            return CSVFormat.DEFAULT
+                    .withDelimiter('\t')
+                    .withIgnoreSurroundingSpaces()
+                    .withFirstRecordAsHeader()
+                    .parse(in)
+                    .getRecords()
+                    .stream()
+                    .map(e -> new Price(LocalDate.parse(e.get("Year")+"0101", Formats.yyyyFormatter),
+                            Double.valueOf(e.get("Open").replace(".", "").replace(",", ".")),
+                            Double.valueOf(e.get("Close").replace(".", "").replace(",", ".")),
+                            Double.valueOf(e.get("High").replace(".", "").replace(",", ".")),
+                            Double.valueOf(e.get("Low").replace(".", "").replace(",", ".")),
                             0L)
             ).collect(Collectors.toList());
         }
