@@ -2,7 +2,6 @@ package com.zmartonos.stocks;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.spark.api.java.function.ForeachFunction;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.SparkSession;
@@ -11,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by zmartonos on 16.12.16.
+ * See spark mlib docs: http://spark.apache.org/docs/latest/ml-guide.html
  */
 public class SparkML {
 
